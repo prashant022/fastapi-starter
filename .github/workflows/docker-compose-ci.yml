@@ -1,0 +1,31 @@
+name: CI - FastAPI + Streamlit
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: ⬇️ Checkout code
+      uses: actions/checkout@v3
+
+    - name: 🐍 Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+
+    - name: 🐳 Set up Docker
+      uses: docker/setup-buildx-action@v2
+
+    - name: 🔧 Build Docker Compose Services
+      run: |
+        docker-compose -f docker-compose.yaml build
+
+    - name: ✅ (Optional) Run tests inside container
+      run: |
+        echo "No tests yet. Add pytest or Streamlit e2e tests here."
